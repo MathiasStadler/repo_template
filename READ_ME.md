@@ -8,4 +8,6 @@
 
 [Update the local rust/cargo installation to the newest/latest version](https://github.com/MathiasStadler/repo_template/blob/main/includes/local_update_rust_env.md)
 
-[Markdown marker from here](https://github.com/MathiasStadler/repo_template/blob/main/includes/markdown_marker.md#to-highlight-a-note-and-warning-using-blockquote)
+[Markdown marker](https://github.com/MathiasStadler/repo_template/blob/main/includes/markdown_marker.md#to-highlight-a-note-and-warning-using-blockquote)
+
+[Markdown template rust codeblock](https://github.com/MathiasStadler/repo_template/blob/main/includes/dummy_rust_codeblock.md)
