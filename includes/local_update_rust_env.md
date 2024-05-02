@@ -14,7 +14,7 @@ rustup update
 #### install cargo-update
 
 ```bash
-cargo install cargo update
+cargo install cargo-update
 ```
 
 #### Self-update of cargo-update
@@ -54,7 +54,7 @@ cargo install --list |grep cargo-edit
 cargo install cargo-edit
 ```
 
-#### update any packages of project
+#### update any/all packages of akt project
 
 ```bash
 cargo update
