@@ -1,7 +1,18 @@
+# extract all rust codeblock from markdown script
+
 <details>
     <summary>Generate scripts from markdown</summary>
 
 ## first step - extract all rust code block from markdown file
+
+> generate four script to extract code block
+> 01_generate_extract_rust_codeblock_from_md.sh => generate next script
+> 02_extract_rust_codeblocks_from_markdown.sh
+> 03_generate_starter_script.sh
+> 04_run_all_generate_starter_script.sh
+
+- bash command : mkdir -p
+-- To create new directories if they do not exist and ignore the command if they do (no error message) use
 
 ```bash
 #!/usr/bin/env bash
@@ -9,16 +20,55 @@ set -e
 #xuo
 export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
 export SCRIPT_DIR="utilities"
+mkdir -p $SCRIPT_DIR
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
-export MD_SCRIPT="./Rust_Error_Box_Dyn.md";
+# check minimum one argument is present
+if [[ \$# -eq 0 ]] ; then
+    echo 'No source markdown file as first argument is specified';
+    exit 1
+fi
+export MD_SCRIPT="\$1"
 export SCRIPTS_OUTPUT="./utilities/02_extract_rust_codeblocks_from_markdown.sh";
 export DIRECTORY_OUTPUT="./examples";
 # test markdown file exits
-if [ -f ./\$MD_SCRIPT ]; then
+if [ -f ./"\$MD_SCRIPT" ]; then
     echo "MD_SCRIPT exists => \$MD_SCRIPT.";
 else
-    echo "File does not exist => \$MD_SCRIPT";
+    echo "File does not exist => \$MD_SCRIPT.";
+    return;
+fi
+echo "DIRECTORY_OUTPUT directory => \$DIRECTORY_OUTPUT";
+echo "cleanup => \$DIRECTORY_OUTPUT";
+[ -d \$DIRECTORY_OUTPUT ] && rm -fr "\$DIRECTORY_OUTPUT";
+echo "create new: mkdir   => \$DIRECTORY_OUTPUT";
+[ -d \$DIRECTORY_OUTPUT ] || mkdir "\$DIRECTORY_OUTPUT";
+echo "cleanup => \$SCRIPTS_OUTPUT";
+[ -f \$SCRIPTS_OUTPUT ] && rm "\$SCRIPTS_OUTPUT";
+echo "create script_output =>\$SCRIPTS_OUTPUT";
+printf "\n" >\$SCRIPTS_OUTPUT && sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
+sed -n '/^\`\`\`rust/,/^\`\`\`/ p' <"\$MD_SCRIPT"| \
+sed '\/^\`\`\`/ d' >> \$SCRIPTS_OUTPUT;#!/usr/bin/env bash
+set -e
+#xuo
+export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
+export SCRIPT_DIR="utilities"
+mkdir -p $SCRIPT_DIR
+cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
+#!/usr/bin/env bash
+# check minimum one argument is present
+if [[ \$# -eq 0 ]] ; then
+    echo "No source markdown file as first argument is specified.";
+    exit 1
+fi
+export MD_SCRIPT="\$1"
+export SCRIPTS_OUTPUT="./utilities/02_extract_rust_codeblocks_from_markdown.sh";
+export DIRECTORY_OUTPUT="./examples";
+# test markdown file exits
+if [ -f ./"\$MD_SCRIPT" ]; then
+    echo "MD_SCRIPT exists => \$MD_SCRIPT.";
+else
+    echo "File does not exist => \$MD_SCRIPT.";
     return;
 fi
 echo "DIRECTORY_OUTPUT directory => \$DIRECTORY_OUTPUT";
@@ -32,6 +82,10 @@ echo "create script_output =>\$SCRIPTS_OUTPUT";
 printf "\n" >\$SCRIPTS_OUTPUT && sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
 sed -n '/^\`\`\`rust/,/^\`\`\`/ p' <"\$MD_SCRIPT"| \
 sed '\/^\`\`\`/ d' >> \$SCRIPTS_OUTPUT;
+ls -l \$SCRIPTS_OUTPUT;
+# /bin/ls -ls "\$SCRIPTS_OUTPUT" | awk '{print "",\$10,\$7,\$8,\$9}';
+# date +"%B %d %H:%M";
+EoF
 ls -l \$SCRIPTS_OUTPUT;
 # /bin/ls -ls "\$SCRIPTS_OUTPUT" | awk '{print "",\$10,\$7,\$8,\$9}';
 # date +"%B %d %H:%M";
