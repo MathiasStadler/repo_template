@@ -1,9 +1,10 @@
+# project setup for easy to used
+
 <details>
-    <summary>Update local rust/cargo env to newest stand</summary>
 
-## project setup for easy to used
+<summary>Update local rust/cargo env to newest stand</summary>
 
-### update rust of latest stable version
+## update rust of latest stable version
 
 ```bash
 rustup update
