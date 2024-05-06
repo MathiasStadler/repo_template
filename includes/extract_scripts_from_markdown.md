@@ -117,6 +117,8 @@ create script_output =>./utilities/02_extract_rust_codeblocks_from_markdown.sh
 sh +x ./utilities/02_extract_rust_codeblocks_from_markdown.sh
 ```
 
+> [bash manual](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
+
 ## next step - extract generate starter scripts from each example
 
 ```bash
@@ -155,6 +157,8 @@ do
 
         # add shebang
         sed -i '1 i\#\!\/usr\/bin\/env bash' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
+        # add set -exuo
+        sed -i '2 i\set -exuo' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add codeblock
         sed -n '/^\/\*/,/^\*\// p' <"\$FILE_NAME" >>"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
 
