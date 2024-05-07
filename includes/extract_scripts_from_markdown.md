@@ -229,8 +229,10 @@ for FILE_NAME in "\$FILES_DIRECTORY_ALL"/*;
    # avoid double/multiple run cargo clippy
    sed -i 's/^cargo clippy/# cargo clippy/' "./\$FILE_NAME";
    # remove/comment cargo fmt for each starter script
-   # avoid unnecessary fmt not save any change
+   # avoid unnecessary fmt action not changes are saved
    sed -i 's/^cargo fmt/# cargo fmt/' "./\$FILE_NAME";
+   # avoid unnecessary clippy action not changes are saved 
+   sed -i 's/^cargo clippy/# cargo clippy/' "./\$FILE_NAME";
    # avoid unnecessary git action script already save inside md file
    sed -i 's/^git/# git/' "./\$FILE_NAME";
    echo "Processing \$FILE_NAME file...";
