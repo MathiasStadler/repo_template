@@ -162,7 +162,7 @@ do
 
         # generate new file
         printf "\n" >"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-
+ret=$?;
         # add shebang
         sed -i '1 i\#\!\/usr\/bin\/env bash' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add set -exuo
@@ -240,12 +240,14 @@ for FILE_NAME in "\$FILES_DIRECTORY_ALL"/*;
     echo "start => \$FILE_NAME";
     echo "#################";
     echo "";
-    # shellcheck source=/dev/null
+    # shell check source=/dev/null
     EXIT_CODE=source sh +x "\$FILE_NAME";
+    ret=\$?;
     echo "";
     echo "#################";
     echo "finished ..";
-    printf "ExitCode => %s  <= %s \n" "\$EXIT_CODE" "\$FILE_NAME";
+    # printf "ExitCode => %s  <= %s \n" "\$EXIT_CODE" "\$FILE_NAME";
+    printf "ExitCode => %s <= %s \n" "\$ret" "\$FILE_NAME";
     echo "#################";
     echo "";
    else
