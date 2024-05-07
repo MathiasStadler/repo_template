@@ -20,7 +20,7 @@ set -e
 #xuo
 export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
 export SCRIPT_DIR="utilities"
-mkdir -p $SCRIPT_DIR
+mkdir -p ./"$SCRIPT_DIR";
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 # check minimum one argument is present
@@ -46,9 +46,19 @@ echo "create new: mkdir   => \$DIRECTORY_OUTPUT";
 echo "cleanup => \$SCRIPTS_OUTPUT";
 [ -f \$SCRIPTS_OUTPUT ] && rm "\$SCRIPTS_OUTPUT";
 echo "create script_output =>\$SCRIPTS_OUTPUT";
-printf "\n" >\$SCRIPTS_OUTPUT && sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
+# create new file
+printf "\n" >\$SCRIPTS_OUTPUT && \
+# add shebang
+sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
+# add settings
+sed -i '2 i\set -exuo' \$SCRIPTS_OUTPUT;
 sed -n '/^\`\`\`rust/,/^\`\`\`/ p' <"\$MD_SCRIPT"| \
 sed '\/^\`\`\`/ d' >> \$SCRIPTS_OUTPUT;#!/usr/bin/env bash
+```
+
+## 2nd version
+
+```bash
 set -e
 #xuo
 export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
@@ -57,7 +67,7 @@ mkdir -p $SCRIPT_DIR
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 # check minimum one argument is present
-if [[ \$# -eq 0 ]] ; then
+if [ \$# -eq 0 ] ; then
     echo "No source markdown file as first argument is specified.";
     exit 1
 fi
@@ -80,16 +90,14 @@ echo "cleanup => \$SCRIPTS_OUTPUT";
 [ -f \$SCRIPTS_OUTPUT ] && rm "\$SCRIPTS_OUTPUT";
 echo "create script_output =>\$SCRIPTS_OUTPUT";
 printf "\n" >\$SCRIPTS_OUTPUT && sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
-sed -n '/^\`\`\`rust/,/^\`\`\`/ p' <"\$MD_SCRIPT"| \
-sed '\/^\`\`\`/ d' >> \$SCRIPTS_OUTPUT;
+# sed -n '/^\\\`\\\`\\\`rust/,/^\\\`\\\`\\\`/ p' <"\$MD_SCRIPT"| \
+# sed '\/^\\\`\\\`\\\`/ d' >> \$SCRIPTS_OUTPUT;
+sed -n /^\\\`\\\`\\\`rust/,/^\\\`\\\`\\\`/ p <"\$MD_SCRIPT"| sed /^\\\`\\\`\\\`/ d >> "\$SCRIPTS_OUTPUT";
+EoF
+
 ls -l \$SCRIPTS_OUTPUT;
 # /bin/ls -ls "\$SCRIPTS_OUTPUT" | awk '{print "",\$10,\$7,\$8,\$9}';
 # date +"%B %d %H:%M";
-EoF
-ls -l \$SCRIPTS_OUTPUT;
-# /bin/ls -ls "\$SCRIPTS_OUTPUT" | awk '{print "",\$10,\$7,\$8,\$9}';
-# date +"%B %d %H:%M";
-EoF
 ```
 
 ## next step - run generate script
