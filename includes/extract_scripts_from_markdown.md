@@ -92,7 +92,7 @@ echo "create script_output =>\$SCRIPTS_OUTPUT";
 printf "\n" >\$SCRIPTS_OUTPUT && sed -i '1 i\#\!\/usr\/bin\/env bash' \$SCRIPTS_OUTPUT;
 # sed -n '/^\\\`\\\`\\\`rust/,/^\\\`\\\`\\\`/ p' <"\$MD_SCRIPT"| \
 # sed '\/^\\\`\\\`\\\`/ d' >> \$SCRIPTS_OUTPUT;
-sed -n /^\\\`\\\`\\\`rust/,/^\\\`\\\`\\\`/ p <"\$MD_SCRIPT"| sed /^\\\`\\\`\\\`/ d >> "\$SCRIPTS_OUTPUT";
+sed -n "/^\\\`\\\`\\\`rust/,/^\\\`\\\`\\\`/ p" <"\$MD_SCRIPT"| sed "/^\\\`\\\`\\\`/ d" >> "\$SCRIPTS_OUTPUT";
 EoF
 
 ls -l \$SCRIPTS_OUTPUT;
