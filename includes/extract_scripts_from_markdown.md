@@ -166,7 +166,8 @@ do
         # add shebang
         sed -i '1 i\#\!\/usr\/bin\/env bash' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add set -exuo
-        sed -i '2 i\set -exuo' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
+        # maybe to much
+        # sed -i '2 i\set -exuo' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add codeblock
         sed -n '/^\/\*/,/^\*\// p' <"\$FILE_NAME" >>"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
 
@@ -210,6 +211,8 @@ cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 FILES_DIRECTORY="run_examples";
 FILES_DIRECTORY_ALL="run_all_examples";
+# test FILES_DIRECTORY_ALL is exits IF MOT create it
+[ ! -d \$FILES_DIRECTORY_ALL ] && mkdir \$FILES_DIRECTORY_ALL
 # copy starter files and modify
 # cp -a ./run_examples/ ./run_all_examples
 cp -a ./"\$FILES_DIRECTORY"/* ./"\$FILES_DIRECTORY_ALL"
