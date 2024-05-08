@@ -138,7 +138,7 @@ cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 # set -x
 FILES_DIR="examples";
 SCRIPT_TARGET_DIR="run_examples";
-# test SCRIPT_TARGET_DIR exits if MOT create it
+# test SCRIPT_TARGET_DIR exits if NOT create it
 [ ! -d \$SCRIPT_TARGET_DIR ] && mkdir \$SCRIPT_TARGET_DIR
 # loop
 for FILE_NAME in "\$FILES_DIR"/*.rs;
@@ -162,7 +162,7 @@ do
 
         # generate new file
         printf "\n" >"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-ret=$?;
+        ret=$?;
         # add shebang
         sed -i '1 i\#\!\/usr\/bin\/env bash' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add set -exuo
@@ -211,7 +211,7 @@ cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 FILES_DIRECTORY="run_examples";
 FILES_DIRECTORY_ALL="run_all_examples";
-# test FILES_DIRECTORY_ALL is exits IF MOT create it
+# test FILES_DIRECTORY_ALL is exits, IF MOT create it
 [ ! -d \$FILES_DIRECTORY_ALL ] && mkdir \$FILES_DIRECTORY_ALL
 # copy starter files and modify
 # cp -a ./run_examples/ ./run_all_examples
@@ -301,37 +301,57 @@ EoF
  2197  sh +x utilities/03_generate_starter_script.sh 
  2198  sh +x utilities/04_run_all_generate_starter_script.sh 
 
- ```rust,no_run
+```rust,no_run
 #!/usr/bin/env bash
-export EXAMPLE_SCRIPT_FILE="06_extract_scripts_from_markdown_and_run.rs"
+export EXAMPLE_SCRIPT_FILE="05_extract_scripts_from_markdown_and_run.sh"
 export EXAMPLE_SCRIPT_DIR="utilities/"
 cat << EoF > ./$EXAMPLE_SCRIPT_DIR/$EXAMPLE_SCRIPT_FILE
 #!/usr/bin/env bash
-FILES_DIRECTORY="$EXAMPLE_SCRIPT_DIR";
-
-for FILE_NAME in "\$EXAMPLE_SCRIPT_DIR"/*
+# set script_name
+SCRIPT_NAME="\$0";
+echo "ScriptName => \$SCRIPT_NAME";
+# check markdown file is as parameter not missing AND set inside script
+# pure check minimum one argument is present
+if [ \$# -eq 0 ] ; then
+    echo "Error => No markdown file as first argument is specified.";
+    exit 1;
+fi
+export MD_SCRIPT="\$1"
+# loop through folder
+for FILE_NAME in "\$EXAMPLE_SCRIPT_DIR"*
    do
-   
-   echo "Processing \$FILE_NAME file...";
-   if echo "\$FILE_NAME"| grep -q 'sh' ;then
-    echo "";
-    echo "#################";
-    echo "start => \$FILE_NAME";
-    echo "#################";
-    echo "";
-    # shell check source=/dev/null
-    # EXIT_CODE=source sh +x "\$FILE_NAME";
-    ret=\$?;
-    echo "";
-    echo "#################";
-    echo "finished ..";
-    # printf "ExitCode => %s  <= %s \n" "\$EXIT_CODE" "\$FILE_NAME";
-    printf "ExitCode => %s <= %s \n" "\$ret" "\$FILE_NAME";
-    echo "#################";
-    echo "";
-   else
-    echo "NOT *.sh script => \$FILE_NAME ";
-    echo "next file ";
+    if [ "\$FILE_NAME" = "\$SCRIPT_NAME" ]; then
+        # echo "HERE HERE equal" "\$FILE_NAME"  "\$SCRIPT_NAME";
+        echo "NOT RUN the script itself => \$SCRIPT_NAME  ";
+        # EXIT SCRIPT
+        exit 0;
+    else
+        # echo "NOT equal" "\$FILE_NAME" "\$SCRIPT_NAME";
+        echo "run script =>\$FILE_NAME";
+    fi
+    echo "Processing file =>  \$FILE_NAME ";
+    if echo "\$FILE_NAME"| grep -q 'sh' ;then
+        echo "";
+        echo "#################";
+        echo "start => \$FILE_NAME";
+        echo "#################";
+        echo "";
+        # call each file with parameter
+        BASE_NAME=$(basename "$FILE_NAME");
+        echo "#################";
+        echo "start => \$BASE_NAME";
+        echo "#################";
+        source sh +x "\$BASE_NAME" "\$MD_SCRIPT";
+        ret=\$?;
+        echo "";
+        echo "#################";
+        echo "finished ..";
+        printf "ExitCode => %s <= %s \n" "\$ret" "\$FILE_NAME";
+        echo "#################";
+        echo "";
+    else
+        echo "NOT *.sh script => \$FILE_NAME ";
+        echo "next file if it avaible ";
    fi
 done;
 echo "finished ..";
