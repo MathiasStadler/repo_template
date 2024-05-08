@@ -293,6 +293,52 @@ fi
 EoF
 ```
 
+## step run all four step
+
+```bash
+2195* sh +x utilities/01_generate_extract_rust_codeblock_from_md.sh  Rust_Testcase_Main_Fn_Result.md
+ 2196  sh +x utilities/02_extract_rust_codeblocks_from_markdown.sh 
+ 2197  sh +x utilities/03_generate_starter_script.sh 
+ 2198  sh +x utilities/04_run_all_generate_starter_script.sh 
+
+ ```rust,no_run
+#!/usr/bin/env bash
+export EXAMPLE_SCRIPT_FILE="06_extract_scripts_from_markdown_and_run.rs"
+export EXAMPLE_SCRIPT_DIR="utilities/"
+cat << EoF > ./$EXAMPLE_SCRIPT_DIR/$EXAMPLE_SCRIPT_FILE
+#!/usr/bin/env bash
+FILES_DIRECTORY="$EXAMPLE_SCRIPT_DIR";
+
+for FILE_NAME in "\$EXAMPLE_SCRIPT_DIR"/*
+   do
+   
+   echo "Processing \$FILE_NAME file...";
+   if echo "\$FILE_NAME"| grep -q 'sh' ;then
+    echo "";
+    echo "#################";
+    echo "start => \$FILE_NAME";
+    echo "#################";
+    echo "";
+    # shell check source=/dev/null
+    # EXIT_CODE=source sh +x "\$FILE_NAME";
+    ret=\$?;
+    echo "";
+    echo "#################";
+    echo "finished ..";
+    # printf "ExitCode => %s  <= %s \n" "\$EXIT_CODE" "\$FILE_NAME";
+    printf "ExitCode => %s <= %s \n" "\$ret" "\$FILE_NAME";
+    echo "#################";
+    echo "";
+   else
+    echo "NOT *.sh script => \$FILE_NAME ";
+    echo "next file ";
+   fi
+done;
+echo "finished ..";
+EoF
+
+```
+
 ## next step - run cleanup script
 
 ```bash
