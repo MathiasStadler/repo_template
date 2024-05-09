@@ -341,7 +341,10 @@ for FILE_NAME in "\$EXAMPLE_SCRIPT_DIR"*
         echo "#################";
         echo "start => \$BASE_NAME";
         echo "#################";
-        source sh +x "\$BASE_NAME" "\$MD_SCRIPT";
+        # FROM HERE
+        # https://www.shellcheck.net/wiki/SC1091
+        # shellcheck source=/dev/null
+        bash +x ./"$FILE_NAME" "$MD_SCRIPT";
         ret=\$?;
         echo "";
         echo "#################";

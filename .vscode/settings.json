@@ -3,6 +3,7 @@
         "avaible",
         "exuo",
         "println",
-        "rustc"
+        "rustc",
+        "shellcheck"
     ]
 }
