@@ -281,7 +281,7 @@ cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 echo "Do you want cleanup this project ? Type => yes";
 read -r  clean_up;
-if [ "$clean_up" = "yes" ];then
+if [ "\$clean_up" = "yes" ];then
   echo "cleanup" && \
   cargo clean && \
   cargo clean --release
@@ -337,7 +337,7 @@ for FILE_NAME in "\$EXAMPLE_SCRIPT_DIR"*
         echo "#################";
         echo "";
         # call each file with parameter
-        BASE_NAME=$(basename "$FILE_NAME");
+        BASE_NAME=\$(basename "\$FILE_NAME");
         echo "#################";
         echo "start => \$BASE_NAME";
         echo "#################";
