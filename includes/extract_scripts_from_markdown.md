@@ -1,11 +1,11 @@
-# extract all rust codeblock from markdown script
+# extract all rust code block from markdown script
 
 <details>
     <summary>Generate scripts from markdown</summary>
 
 - generate four script to extract code block
-  - 01_generate_extract_rust_codeblock_from_md.sh => generate next script
-  - 02_extract_rust_codeblocks_from_markdown.sh
+  - 01_generate_extract_rust_code block_from_md.sh => generate next script
+  - 02_extract_rust_code blocks_from_markdown.sh
   - 03_generate_starter_script.sh
   - 04_run_all_generate_starter_script.sh
 
@@ -19,7 +19,7 @@
 #!/usr/bin/env bash
 set -e
 #xuo
-export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
+export SCRIPT_FILE="01_generate_extract_rust_code block_from_md.sh"
 export SCRIPT_DIR="utilities"
 # create \$SCRIPT_DIR if is not available
 mkdir -p ./"$SCRIPT_DIR";
@@ -32,7 +32,7 @@ if [[ \$# -eq 0 ]] ; then
     exit 1
 fi
 export MD_SCRIPT="\$1"
-export SCRIPTS_OUTPUT="./utilities/02_extract_rust_codeblocks_from_markdown.sh";
+export SCRIPTS_OUTPUT="./utilities/02_extract_rust_code blocks_from_markdown.sh";
 export DIRECTORY_OUTPUT="./examples";
 # test markdown file exits
 if [ -f ./"\$MD_SCRIPT" ]; then
@@ -64,7 +64,7 @@ sed '\/^\`\`\`/ d' >> \$SCRIPTS_OUTPUT;#!/usr/bin/env bash
 ```bash
 set -e
 #xuo
-export SCRIPT_FILE="01_generate_extract_rust_codeblock_from_md.sh"
+export SCRIPT_FILE="01_generate_extract_rust_code_block_from_md.sh"
 export SCRIPT_DIR="utilities"
 mkdir -p $SCRIPT_DIR
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
@@ -75,13 +75,13 @@ if [ \$# -eq 0 ] ; then
     exit 1
 fi
 export MD_SCRIPT="\$1"
-export SCRIPTS_OUTPUT="./utilities/02_extract_rust_codeblocks_from_markdown.sh";
+export SCRIPTS_OUTPUT="./utilities/02_extract_rust_code_blocks_from_markdown.sh";
 export DIRECTORY_OUTPUT="./examples";
 # test markdown file exits
 if [ -f ./"\$MD_SCRIPT" ]; then
-    echo "MD_SCRIPT exists => \$MD_SCRIPT.";
+    echo "Ok => MD_SCRIPT exists, we will generate code block => \$MD_SCRIPT.";
 else
-    echo "File does not exist => \$MD_SCRIPT.";
+    echo "Error => File does not exist => \$MD_SCRIPT.";
     return;
 fi
 echo "DIRECTORY_OUTPUT directory => \$DIRECTORY_OUTPUT";
@@ -108,13 +108,13 @@ ls -l \$SCRIPTS_OUTPUT;
 ```bash
 #!/usr/bin/env bash
 # change to PROJECT_FOLDER
-sh +x ./utilities/01_generate_extract_rust_codeblock_from_md.sh
+sh +x ./utilities/01_generate_extract_rust_code_block_from_md.sh
 ```
 
 ```bash
 .
 .
-create script_output =>./utilities/02_extract_rust_codeblocks_from_markdown.sh
+create script_output =>./utilities/02_extract_rust_code_blocks_from_markdown.sh
 .
 .
 
@@ -125,7 +125,7 @@ create script_output =>./utilities/02_extract_rust_codeblocks_from_markdown.sh
 ```bash
 #!/usr/bin/env bash
 # change to PROJECT_FOLDER
-sh +x ./utilities/02_extract_rust_codeblocks_from_markdown.sh
+sh +x ./utilities/02_extract_rust_code_blocks_from_markdown.sh
 ```
 
 > [bash manual](https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html)
@@ -137,7 +137,7 @@ export SCRIPT_FILE="03_generate_starter_script.sh"
 export SCRIPT_DIR="utilities"
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
-#show command line
+# show command line
 # set -x
 FILES_DIR="examples";
 SCRIPT_TARGET_DIR="run_examples";
@@ -165,22 +165,22 @@ do
 
         # generate new file
         printf "\n" >"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-        ret=$?;
+        ret=\$?;
         # add shebang
         sed -i '1 i\#\!\/usr\/bin\/env bash' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
         # add set -exuo
         # maybe to much
         # sed -i '2 i\set -exuo' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-        # add codeblock
+        # add code block
         sed -n '/^\/\*/,/^\*\// p' <"\$FILE_NAME" >>"./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
 
         # remove
-        # codeblock marker
+        # code block marker
         # before code block
         sed -i 's/^\/\*//' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-        # after codeblock
+        # after code block
         sed -i 's/^\*\///' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
-        # git push - minimize from too many git push during run
+        # remove git push - minimize from too many git push during run
         sed -i 's/git push//' "./\$SCRIPT_TARGET_DIR/\$SCRIPT_FILE_NAME";
     else
         echo "NOT *.rs script => \$FILE_NAME";
@@ -208,20 +208,22 @@ sh +x ./utilities/03_generate_starter_script.sh
 
 ```bash
 #!/usr/bin/env bash
-export SCRIPT_FILE="04_run_all_generate_starter_script.sh"
-export SCRIPT_DIR="utilities"
+export SCRIPT_FILE="04_run_all_generate_starter_script.sh";
+export SCRIPT_DIR="utilities";
 cat << EoF > ./$SCRIPT_DIR/$SCRIPT_FILE
 #!/usr/bin/env bash
 FILES_DIRECTORY="run_examples";
 FILES_DIRECTORY_ALL="run_all_examples";
 # test FILES_DIRECTORY_ALL is exits, IF MOT create it
-[ ! -d \$FILES_DIRECTORY_ALL ] && mkdir \$FILES_DIRECTORY_ALL
+[ ! -d \$FILES_DIRECTORY_ALL ] && mkdir \$FILES_DIRECTORY_ALL;
+
+echo "start ..";
 # copy starter files and modify
-# cp -a ./run_examples/ ./run_all_examples
-cp -a ./"\$FILES_DIRECTORY"/* ./"\$FILES_DIRECTORY_ALL"
+cp -a ./"\$FILES_DIRECTORY"/* ./"\$FILES_DIRECTORY_ALL";
 
 # build all example
-cargo build;
+cargo build --examples;
+
 
 for FILE_NAME in "\$FILES_DIRECTORY_ALL"/*;
    do
@@ -262,7 +264,6 @@ for FILE_NAME in "\$FILES_DIRECTORY_ALL"/*;
 done;
 echo "finished ..";
 
-
 EoF
 ```
 
@@ -299,8 +300,8 @@ EoF
 ## step run all four step
 
 ```bash
-2195* sh +x utilities/01_generate_extract_rust_codeblock_from_md.sh  Rust_Testcase_Main_Fn_Result.md
- 2196  sh +x utilities/02_extract_rust_codeblocks_from_markdown.sh 
+2195* sh +x utilities/01_generate_extract_rust_code block_from_md.sh  Rust_Testcase_Main_Fn_Result.md
+ 2196  sh +x utilities/02_extract_rust_code blocks_from_markdown.sh 
  2197  sh +x utilities/03_generate_starter_script.sh 
  2198  sh +x utilities/04_run_all_generate_starter_script.sh 
 
