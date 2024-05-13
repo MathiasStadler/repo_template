@@ -6,10 +6,10 @@
 ## first step - extract all rust code block from markdown file
 
 - generate four script to extract code block
--- 01_generate_extract_rust_codeblock_from_md.sh => generate next script
--- 02_extract_rust_codeblocks_from_markdown.sh
--- 03_generate_starter_script.sh
--- 04_run_all_generate_starter_script.sh
+  - 01_generate_extract_rust_codeblock_from_md.sh => generate next script
+  - 02_extract_rust_codeblocks_from_markdown.sh
+  - 03_generate_starter_script.sh
+  - 04_run_all_generate_starter_script.sh
 
 - bash command : mkdir -p
 -- To create new directories if they do not exist and ignore the command if they do (no error message) use
