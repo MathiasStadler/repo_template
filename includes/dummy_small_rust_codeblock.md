@@ -7,6 +7,8 @@
 export EXAMPLE_SCRIPT_FILE="99_template.rs"
 export EXAMPLE_SCRIPT_DIR="examples/"
 cat << EoF > ./$EXAMPLE_SCRIPT_DIR/$EXAMPLE_SCRIPT_FILE
+//FROM HERE
+// <link of source>
 pub fn main(){
 
     println!("template");
@@ -22,8 +24,8 @@ cargo run --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
 echo "";
 echo "run TEST => \$(echo \$FILE_NAME | cut -d . -f 1)"
 cargo test --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
-cargo test --jobs 4 --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
-echo "ReturnCode => $?"
+# cargo test --jobs 4 --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
+echo "ReturnCode => \$?"
 */
 EoF
 
