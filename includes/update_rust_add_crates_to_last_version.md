@@ -60,7 +60,6 @@ cargo upgrade
 cargo upgrade --verbose
 ```
 
-
 ## build the project with the new rust version and with the new updates crates
 
 ```bash
@@ -76,3 +75,5 @@ cargo remove tarpaulin
 ```
 
 ## remove automatic unused project dependency
+
+### [clippy homepage](https://github.com/rust-lang/rust-clippy)
