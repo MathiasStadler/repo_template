@@ -32,6 +32,9 @@ git commit --all --message="-> Add AFTER housekeeping => \$FILE_DIR_NAME/\$FILE_
 git push
 cargo run --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
 echo "ReturnCode => \$?"
+git commit --all --message="-> git commit BEFORE clippy fix => \$FILE_DIR_NAME/\$FILE_NAME"
+# clippy
+cargo clippy --example "\$(echo $FILE_NAME | cut -d . -f 1)" --fix
 */
 EoF
 
