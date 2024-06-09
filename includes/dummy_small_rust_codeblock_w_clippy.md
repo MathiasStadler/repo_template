@@ -17,6 +17,8 @@ pub fn main(){
 /*
 export FILE_NAME=$EXAMPLE_SCRIPT_FILE
 export FILE_DIR_NAME=$EXAMPLE_SCRIPT_DIR
+echo "clippy prg => \$(echo \$FILE_NAME | cut -d . -f 1)";
+cargo clippy --fix --allow-dirty --allow-staged
 echo "build prg => \$(echo \$FILE_NAME | cut -d . -f 1)";
 cargo build --example "\$(echo \$FILE_NAME | cut -d . -f 1)"
 echo "run PRG => \$(echo \$FILE_NAME | cut -d . -f 1)";
